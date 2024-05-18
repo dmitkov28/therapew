@@ -14,7 +14,7 @@ To run it:
 2. Build the image and run as a Docker container:
 
     ```bash
-    docker -build -t therapew .
+    docker build -t therapew .
     docker run -d -p 80:80
     ```
 
