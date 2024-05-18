@@ -17,7 +17,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
 import Spinner from "../Spinner";
 
 interface DataTableProps<TData, TValue> {
@@ -36,6 +35,8 @@ interface DataTableProps<TData, TValue> {
     }>
   >;
   isLoading: boolean;
+  sorting: SortingState;
+  setSorting: React.Dispatch<React.SetStateAction<SortingState>>;
 }
 
 export function DataTable<TData, TValue>({
@@ -44,10 +45,11 @@ export function DataTable<TData, TValue>({
   pagination,
   setPagination,
   isLoading,
+  sorting,
+  setSorting,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = useState<SortingState>([]);
-
   const navigate = useNavigate();
+
   const table = useReactTable({
     data,
     columns,
@@ -56,6 +58,7 @@ export function DataTable<TData, TValue>({
     getSortedRowModel: getSortedRowModel(),
     onPaginationChange: setPagination,
     manualPagination: true,
+    manualSorting: true,
     state: {
       sorting,
       pagination,

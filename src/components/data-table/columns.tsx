@@ -12,7 +12,7 @@ export const columns: ColumnDef<
       return (
         <button
           className="flex items-center"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting()}
         >
           Име
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -26,7 +26,7 @@ export const columns: ColumnDef<
       return (
         <button
           className="flex items-center"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting()}
         >
           Възраст
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -41,7 +41,7 @@ export const columns: ColumnDef<
       return (
         <button
           className="flex items-center"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting()}
         >
           Такса
           <ArrowUpDown className="ml-2 h-4 w-4" />

@@ -5,6 +5,7 @@ import { getPaginatedClients } from "@/lib/data";
 import { useDebounced } from "@/lib/hooks";
 import { useQuery } from "@tanstack/react-query";
 import { Link, createFileRoute } from "@tanstack/react-router";
+import { SortingState } from "@tanstack/react-table";
 import { SearchIcon } from "lucide-react";
 import { ChangeEvent, useEffect, useState } from "react";
 
@@ -26,15 +27,29 @@ const Dashboard = () => {
     lastPage: 0,
   });
 
+  const [sorting, setSorting] = useState<SortingState>([]);
+
   const from = pagination.pageIndex * pagination.pageSize;
   const to = from + pagination.pageSize - 1;
 
   const { data, isLoading, refetch, isFetched } = useQuery({
-    queryKey: ["data", pagination.pageIndex, debouncedFilter],
+    queryKey: ["data", pagination.pageIndex, debouncedFilter, sorting],
     queryFn: () =>
-      getPaginatedClients({ from, to, searchFilter: debouncedFilter }),
+      getPaginatedClients({
+        from,
+        to,
+        searchFilter: debouncedFilter,
+        sortBy: sorting.length ? sorting[0].id as keyof ClientRead : undefined,
+        desc: sorting.length ? sorting[0].desc : undefined,
+      }),
     enabled: false,
   });
+
+  useEffect(() => {
+    if (sorting.length) {
+      console.log(sorting);
+    }
+  }, [sorting]);
 
   useEffect(() => {
     if (
@@ -86,6 +101,8 @@ const Dashboard = () => {
         isLoading={isLoading}
         pagination={pagination}
         setPagination={setPagination}
+        sorting={sorting}
+        setSorting={setSorting}
       />
     </div>
   );

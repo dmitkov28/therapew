@@ -6,7 +6,7 @@ export const getClient = async (clientId: string) => {
     .select("*, session(*)")
     .eq("id", clientId)
     .limit(10, { referencedTable: "session" })
-    .order("date", {referencedTable: "session", ascending: false})
+    .order("date", { referencedTable: "session", ascending: false })
     .single();
   if (!error) {
     return data;
@@ -50,23 +50,38 @@ export const getPaginatedClients = async ({
   from = 0,
   to = 10,
   searchFilter,
+  desc,
+  sortBy,
 }: {
   from: number;
   to: number;
   searchFilter?: string;
+  desc?: boolean | undefined;
+  sortBy?: keyof ClientRead | undefined;
 }) => {
+  let query;
+
   if (searchFilter) {
     const data = await searchByText(searchFilter);
     return data;
   }
 
-  const { data, error } = await supabase
-    .from("client")
-    .select("*")
-    .range(from, to);
+  query = supabase.from("client").select("*");
+
+  if (sortBy !== undefined) {
+    if (desc) {
+      query.order(sortBy, { ascending: false, nullsFirst: false });
+    } else {
+      query.order(sortBy, { ascending: true, nullsFirst: false });
+    }
+  }
+
+  const { data, error } = await query.range(from, to);
+
   if (!error) {
     return data;
   }
+
   throw new Error(error.message);
 };
 
