@@ -138,4 +138,5 @@ export const Route = createFileRoute("/_protected/clients/$clientId/")({
   },
   component: ClientDetails,
   errorComponent: () => <NotFound />,
+  staleTime: Infinity,
 });
