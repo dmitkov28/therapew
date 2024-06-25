@@ -1,4 +1,3 @@
-import Logo from "@/components/Logo";
 import { DataTable } from "@/components/data-table/DataTable";
 import { columns } from "@/components/data-table/columns";
 import { getPaginatedClients } from "@/lib/data";
@@ -39,7 +38,9 @@ const Dashboard = () => {
         from,
         to,
         searchFilter: debouncedFilter,
-        sortBy: sorting.length ? sorting[0].id as keyof ClientRead : undefined,
+        sortBy: sorting.length
+          ? (sorting[0].id as keyof ClientRead)
+          : undefined,
         desc: sorting.length ? sorting[0].desc : undefined,
       }),
     enabled: false,
@@ -70,9 +71,8 @@ const Dashboard = () => {
   }, [pagination.pageIndex, data]);
 
   return (
-    <div className="w-full md:p-12 p-3">
-      <div className="flex md:justify-between justify-center items-center mb-4 flex-wrap gap-y-8 md:gap-y-0">
-        <Logo />
+    <div className="w-full p-3">
+      <div className="flex md:justify-end justify-center items-center mb-4 flex-wrap gap-y-8 md:gap-y-0">
         <div className="flex w-full md:w-fit flex-col items-end space-y-8">
           <div className="relative w-full">
             <SearchIcon className="h-5 absolute top-1/2 left-1 -translate-y-1/2 text-slate-400" />

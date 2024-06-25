@@ -11,9 +11,9 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as ExperimentsImport } from './routes/experiments'
 import { Route as ProtectedImport } from './routes/_protected'
 import { Route as IndexImport } from './routes/index'
+import { Route as ProtectedSpeechToTextIndexImport } from './routes/_protected/speech-to-text/index'
 import { Route as ProtectedClientsIndexImport } from './routes/_protected/clients/index'
 import { Route as ProtectedClientsAddImport } from './routes/_protected/clients/add'
 import { Route as ProtectedSessionsSessionIdIndexImport } from './routes/_protected/sessions/$sessionId/index'
@@ -21,11 +21,6 @@ import { Route as ProtectedClientsClientIdIndexImport } from './routes/_protecte
 import { Route as ProtectedClientsClientIdEditIndexImport } from './routes/_protected/clients/$clientId/edit/index'
 
 // Create/Update Routes
-
-const ExperimentsRoute = ExperimentsImport.update({
-  path: '/experiments',
-  getParentRoute: () => rootRoute,
-} as any)
 
 const ProtectedRoute = ProtectedImport.update({
   id: '/_protected',
@@ -36,6 +31,13 @@ const IndexRoute = IndexImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any)
+
+const ProtectedSpeechToTextIndexRoute = ProtectedSpeechToTextIndexImport.update(
+  {
+    path: '/speech-to-text/',
+    getParentRoute: () => ProtectedRoute,
+  } as any,
+)
 
 const ProtectedClientsIndexRoute = ProtectedClientsIndexImport.update({
   path: '/clients/',
@@ -77,16 +79,16 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedImport
       parentRoute: typeof rootRoute
     }
-    '/experiments': {
-      preLoaderRoute: typeof ExperimentsImport
-      parentRoute: typeof rootRoute
-    }
     '/_protected/clients/add': {
       preLoaderRoute: typeof ProtectedClientsAddImport
       parentRoute: typeof ProtectedImport
     }
     '/_protected/clients/': {
       preLoaderRoute: typeof ProtectedClientsIndexImport
+      parentRoute: typeof ProtectedImport
+    }
+    '/_protected/speech-to-text/': {
+      preLoaderRoute: typeof ProtectedSpeechToTextIndexImport
       parentRoute: typeof ProtectedImport
     }
     '/_protected/clients/$clientId/': {
@@ -111,11 +113,11 @@ export const routeTree = rootRoute.addChildren([
   ProtectedRoute.addChildren([
     ProtectedClientsAddRoute,
     ProtectedClientsIndexRoute,
+    ProtectedSpeechToTextIndexRoute,
     ProtectedClientsClientIdIndexRoute,
     ProtectedSessionsSessionIdIndexRoute,
     ProtectedClientsClientIdEditIndexRoute,
   ]),
-  ExperimentsRoute,
 ])
 
 /* prettier-ignore-end */

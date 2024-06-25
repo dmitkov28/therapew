@@ -1,5 +1,4 @@
 import Dialog from "@/components/DeleteDialog";
-import Logo from "@/components/Logo";
 import NotFound from "@/components/NotFound";
 import SessionDialog from "@/components/SessionDialog";
 import { getClient } from "@/lib/data";
@@ -23,9 +22,6 @@ const ClientDetails = () => {
   return (
     <div className="flex w-full flex-col space-y-4 mb-6">
       <div className="pt-12 md:px-12 px-2 w-full">
-        <Link to="/clients" className="block mb-4">
-          <Logo />
-        </Link>
         <div className="p-8 border rounded-md w-full">
           <div className="flex flex-wrap justify-between items-center">
             <h1 className="text-3xl font-bold inline-flex items-center gap-3 pb-4 flex-wrap">
