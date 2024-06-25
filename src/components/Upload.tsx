@@ -1,9 +1,6 @@
 import image from "@/assets/therapew.svg";
-import {
-  generateDOCXFile,
-  generateDocumentURL,
-  generateTranscript,
-} from "@/lib/ai";
+import { generateDOCXFile, generateDocumentURL } from "@/lib/ai";
+import { supabase } from "@/supabase";
 import { UploadIcon, DownloadIcon, RotateCcw } from "lucide-react";
 import { useState } from "react";
 
@@ -20,8 +17,13 @@ export default function Upload() {
     setLoading(true);
     try {
       if (file) {
-        const text = await generateTranscript(file);
-        const docxBlob = await generateDOCXFile(text as unknown as string);
+        const formData = new FormData();
+        formData.append("file", file);
+        const { data } = await supabase.functions.invoke("generateTranscript", {
+          body: formData,
+        });
+
+        const docxBlob = await generateDOCXFile(JSON.parse(data).text);
         const blobUrl = generateDocumentURL(docxBlob);
         setTranscript(blobUrl);
       }

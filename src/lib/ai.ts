@@ -1,22 +1,7 @@
-import OpenAI from "openai";
 import { Document, Packer, Paragraph, TextRun } from "docx";
 
 export const chunkFile = () => {
   // chunk file into smaller chunks if its over 25mb
-};
-
-export const generateTranscript = async (file: File) => {
-  const openai = new OpenAI({
-    apiKey: import.meta.env.VITE_OPENAI_API_KEY,
-    dangerouslyAllowBrowser: true,
-  });
-  const transcription = await openai.audio.transcriptions.create({
-    file: file,
-    model: "whisper-1",
-    response_format: "text",
-  });
-
-  return transcription;
 };
 
 export const generateDocumentURL = (blob: Blob) => {
