@@ -13,7 +13,7 @@ export default function Upload() {
   const onFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.currentTarget.files?.length) {
       const uploadedFile = e.currentTarget.files[0];
-      if (file?.type.includes("audio")) {
+      if (uploadedFile?.type.includes("audio")) {
         setFile(uploadedFile);
       } else {
         setError("Невалиден файл.");
