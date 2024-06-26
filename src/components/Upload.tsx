@@ -74,7 +74,7 @@ export default function Upload() {
               onClick={handleGenerateTranscript}
               className="bg-emerald-600 w-full md:w-fit text-white md:px-2 md:py-1 py-2 rounded-md font-medium"
             >
-              Създай транскрипция
+              Генерирай транскрипция
             </button>
           )}
 
