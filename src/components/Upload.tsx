@@ -6,11 +6,19 @@ import { useState } from "react";
 
 export default function Upload() {
   const [file, setFile] = useState<File | null>(null);
+  const [error, setError] = useState<null | string>(null);
   const [loading, setLoading] = useState(false);
   const [transcript, setTranscript] = useState("");
 
   const onFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.currentTarget.files?.length) setFile(e.currentTarget.files[0]);
+    if (e.currentTarget.files?.length) {
+      const uploadedFile = e.currentTarget.files[0];
+      if (file?.type.includes("audio")) {
+        setFile(uploadedFile);
+      } else {
+        setError("Невалиден файл.");
+      }
+    }
   };
 
   const handleGenerateTranscript = async () => {
@@ -41,11 +49,12 @@ export default function Upload() {
         <Loading />
       ) : (
         <>
-          {file && file.name}
+          {file && file.name && !error}
+          <span className="text-red-500">{error}</span>
           {!loading && !transcript && (
             <label
               htmlFor="file"
-              className="border w-full md:w-1/4 text-slate-500 border-slate-400 p-8 rounded-md cursor-pointer hover:shadow-md flex justify-center items-center flex-col gap-3"
+              className="border w-full md:w-1/4 text-center text-slate-500 border-slate-400 p-8 rounded-md cursor-pointer hover:shadow-md flex justify-center items-center flex-col gap-3"
             >
               <input
                 onChange={onFileUpload}
