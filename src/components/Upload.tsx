@@ -59,11 +59,13 @@ export default function Upload() {
               <input
                 onChange={onFileUpload}
                 id="file"
-                accept="audio/*"
+                // accept="audio/*"
                 type="file"
                 hidden
               />
-              <UploadIcon width={20} /> Качи файл
+              <UploadIcon width={20} />
+              <span>Качи файл</span>
+              <span className="text-sm italic">Максимален размер: 25MB</span>
             </label>
           )}
 
