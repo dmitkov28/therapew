@@ -32,7 +32,15 @@ export const generateDOCXFile = async (text: string) => {
 export const convertWithFFmpeg = async (ffmpeg: FFmpeg, file: File) => {
   await ffmpeg.writeFile(file.name, await fetchFile(file));
   await ffmpeg.readFile(file.name);
-  await ffmpeg.exec(["-i", file.name, "-c:a", "copy", "output.m4a"]);
+  await ffmpeg.exec([
+    "-i",
+    file.name,
+    "-c:a",
+    "aac",
+    "-b:a",
+    "128k",
+    "output.m4a",
+  ]);
   const data = await ffmpeg.readFile("output.m4a");
   const blob = new Blob([data], { type: file.type });
 
