@@ -29,13 +29,30 @@ export default function AudioRecorder({
   const [isTranscribing, setIsTranscribing] = useState(false);
 
   useEffect(() => {
-    (async () => {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      if (stream.active) {
-        const recorder = new MediaRecorder(stream);
-        setMediaRecorder(recorder);
+    let stream: MediaStream | null = null;
+
+    const initMediaRecorder = async () => {
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        if (stream.active) {
+          const recorder = new MediaRecorder(stream);
+          setMediaRecorder(recorder);
+        }
+      } catch (error) {
+        console.error("Error accessing media devices:", error);
       }
-    })();
+    };
+
+    initMediaRecorder();
+
+    return () => {
+      if (stream && stream.active) {
+        stream.getTracks().forEach((track) => track.stop());
+      }
+      if (mediaRecorder && mediaRecorder.state !== "inactive") {
+        mediaRecorder.stop();
+      }
+    };
   }, []);
 
   const { ffmpeg, loaded: ffmpegLoaded } = useFFMPEG();
