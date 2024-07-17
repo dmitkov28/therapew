@@ -121,7 +121,7 @@ export default function Upload() {
   );
 }
 
-const Loading = ({ msg }: { msg: string }) => {
+export const Loading = ({ msg }: { msg: string }) => {
   return (
     <div className="flex flex-col items-center justify-center gap-2">
       <img className={`h-10 animate-bounce`} src={image} alt="" />

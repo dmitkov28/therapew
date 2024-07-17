@@ -1,8 +1,11 @@
+import AudioRecorder from "./AudioRecorder";
 import { DatePicker } from "./DatePicker";
 
 export default function SessionForm({
   sessionInput,
   setSessionInput,
+  recordingMode,
+  setRecordingMode,
 }: {
   sessionInput: {
     date: Date;
@@ -14,23 +17,33 @@ export default function SessionForm({
       notes: string;
     }>
   >;
+  recordingMode?: boolean;
+  setRecordingMode?: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   return (
-    <form className="space-y-4">
+    <form className={!recordingMode ? "space-y-4" : "space-y-10"}>
       <DatePicker
         sessionInput={sessionInput}
         setSessionInput={setSessionInput}
       />
-      <textarea
-        value={sessionInput.notes}
-        onChange={(e) =>
-          setSessionInput((data) => ({ ...data, notes: e.target.value }))
-        }
-        rows={10}
-        className={`w-full border rounded-md px-2 py-1`}
-        placeholder="Бележки"
-        name="notes"
-      />
+      {!recordingMode ? (
+        <textarea
+          value={sessionInput.notes}
+          onChange={(e) =>
+            setSessionInput((data) => ({ ...data, notes: e.target.value }))
+          }
+          rows={10}
+          className={`w-full border rounded-md px-2 py-1`}
+          placeholder="Бележки"
+          name="notes"
+        />
+      ) : (
+        <AudioRecorder
+          sessionInput={sessionInput}
+          setSessionInput={setSessionInput}
+          setRecordingMode={setRecordingMode!}
+        />
+      )}
     </form>
   );
 }
