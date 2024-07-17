@@ -59,7 +59,7 @@ export default function SessionDialog({
             />
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter>
+        <AlertDialogFooter className="items-center">
           <Button
             onClick={() => setRecordingMode((prev) => !prev)}
             className="mr-auto text-emerald-600 border border-emerald-600 px-2 py-1 rounded-md font-medium inline-flex justify-center items-center gap-2 hover:bg-transparent bg-transparent md:w-fit w-full md:my-0 my-2"

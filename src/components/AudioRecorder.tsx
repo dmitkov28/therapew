@@ -3,6 +3,8 @@ import { supabase } from "@/supabase";
 import { PlayCircleIcon, StopCircleIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Loading } from "./Upload";
+import { useFFMPEG } from "@/lib/hooks";
+import { convertWithFFmpeg } from "@/lib/transcripts";
 
 export default function AudioRecorder({
   setSessionInput,
@@ -36,6 +38,8 @@ export default function AudioRecorder({
     })();
   }, []);
 
+  const { ffmpeg, loaded: ffmpegLoaded } = useFFMPEG();
+
   const handleStartRecording = async () => {
     setIsRecording(true);
 
@@ -46,15 +50,17 @@ export default function AudioRecorder({
         audioChunks.push(event.data);
       };
       mediaRecorder.onstop = async () => {
-        const audioBlob = new Blob(audioChunks, { type: "audio/ogg" });
-        const file = new File([audioBlob], "recording.ogg", {
+        const audioBlob = new Blob(audioChunks, { type: "audio/m4a" });
+        const file = new File([audioBlob], "recording.m4a", {
           type: audioBlob.type,
         });
 
+        const convertedFile = await convertWithFFmpeg(ffmpeg, file);
+
         // const audioUrl = URL.createObjectURL(audioBlob);
-        
+
         const formData = new FormData();
-        formData.append("file", file);
+        formData.append("file", convertedFile);
 
         setIsTranscribing(true);
 
@@ -93,6 +99,8 @@ export default function AudioRecorder({
           size={50}
         />
       )}
+      {!ffmpegLoaded && <Loading msg="Подготвям системата.." />}
+
       {!isRecording && !isTranscribing && (
         <PlayCircleIcon
           onClick={handleStartRecording}
