@@ -1,10 +1,10 @@
 import soundWaveGif from "@/assets/soundWave.gif";
+import { useFFMPEG } from "@/lib/hooks";
+import { convertWithFFmpeg } from "@/lib/transcripts";
 import { supabase } from "@/supabase";
 import { PlayCircleIcon, StopCircleIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Loading } from "./Upload";
-import { useFFMPEG } from "@/lib/hooks";
-import { convertWithFFmpeg } from "@/lib/transcripts";
 
 export default function AudioRecorder({
   setSessionInput,
@@ -101,7 +101,7 @@ export default function AudioRecorder({
       )}
       {!ffmpegLoaded && <Loading msg="Подготвям системата.." />}
 
-      {!isRecording && !isTranscribing && (
+      {!isRecording && !isTranscribing && ffmpegLoaded && (
         <PlayCircleIcon
           onClick={handleStartRecording}
           className="text-emerald-600 cursor-pointer hover:text-emerald-800"
