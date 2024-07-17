@@ -74,11 +74,12 @@ export default function SessionDialog({
             )}
           </Button>
 
-          <AlertDialogCancel onClick={() => setOpen(false)}>
+          <AlertDialogCancel className="w-full md:w-fit" onClick={() => setOpen(false)}>
             Отмени
           </AlertDialogCancel>
           {!recordingMode && (
             <AlertDialogAction
+
               onClick={async () => {
                 await addSession({
                   date: sessionInput.date.toISOString(),
@@ -87,7 +88,7 @@ export default function SessionDialog({
                 });
                 router.invalidate();
               }}
-              className="text-white hover:bg-emerald-600 bg-emerald-600 "
+              className="text-white hover:bg-emerald-600 bg-emerald-600 w-full md:w-fit"
             >
               Добави сесия
             </AlertDialogAction>
