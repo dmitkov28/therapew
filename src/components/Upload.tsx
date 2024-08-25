@@ -1,30 +1,34 @@
 import image from "@/assets/therapew.svg";
+import { useFFMPEG } from "@/lib/hooks";
 import {
+  convertWithFFmpeg,
   generateDOCXFile,
   generateDocumentURL,
-  convertWithFFmpeg,
 } from "@/lib/transcripts";
-import { useFFMPEG } from "@/lib/hooks";
 import { supabase } from "@/supabase";
 import { DownloadIcon, RotateCcw, UploadIcon } from "lucide-react";
 import { useState } from "react";
 
 export default function Upload() {
   const [file, setFile] = useState<File | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState<null | string>(null);
   const [loading, setLoading] = useState(false);
   const [transcript, setTranscript] = useState("");
 
   const onFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setError("");
+    setIsUploading(true);
     if (e.currentTarget.files?.length) {
       const uploadedFile = e.currentTarget.files[0];
       if (uploadedFile?.type.includes("audio")) {
         // This is needed because Whisper API has issues with some audio formats
         const convertedFile = await convertWithFFmpeg(ffmpeg, uploadedFile);
         setFile(convertedFile);
+        setIsUploading(false);
       } else {
         setError("Невалиден файл.");
+        setIsUploading(false);
       }
     }
   };
@@ -61,9 +65,11 @@ export default function Upload() {
             <Loading msg="Генерирам транскрипция..." />
           ) : (
             <>
-              {file && file.name && !error && <span>{file.name}</span>}
+              {file && file.name && !error && !isUploading && (
+                <span>{file.name}</span>
+              )}
               <span className="text-red-500">{error}</span>
-              {!loading && !transcript && (
+              {!loading && !transcript && !isUploading && (
                 <label
                   htmlFor="file"
                   className="border w-full md:w-1/4 text-center text-slate-500 border-slate-400 p-8 rounded-md cursor-pointer hover:shadow-md flex justify-center items-center flex-col gap-3"
@@ -83,7 +89,7 @@ export default function Upload() {
                 </label>
               )}
 
-              {file && (
+              {file && !isUploading && (
                 <button
                   onClick={handleGenerateTranscript}
                   className="bg-emerald-600 w-full md:w-fit text-white md:px-2 md:py-1 py-2 rounded-md font-medium"
@@ -92,7 +98,7 @@ export default function Upload() {
                 </button>
               )}
 
-              {transcript && !loading && !file && (
+              {transcript && !loading && !file && !isUploading && (
                 <div className="flex flex-col w-full justify-center items-center gap-16">
                   <a
                     className="flex justify-center items-center gap-2 bg-emerald-600 w-full text-center md:w-fit text-white md:px-4 md:py-3 py-2 rounded-md font-medium"
@@ -111,6 +117,8 @@ export default function Upload() {
                   </button>
                 </div>
               )}
+
+              {isUploading && <Loading msg="Обработвам файла..." />}
             </>
           )}
         </>
