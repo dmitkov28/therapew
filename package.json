@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "@tanstack/router-devtools": "^1.115.0",
-    "@tanstack/router-vite-plugin": "^1.31.18",
+    "@tanstack/router-vite-plugin": "^1.115.0",
     "@types/node": "^20.12.11",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
