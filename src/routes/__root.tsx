@@ -1,3 +1,4 @@
+import Logo from "@/components/Logo";
 import NotFound from "@/components/NotFound";
 import {
   createRootRoute,
@@ -6,9 +7,8 @@ import {
   useLocation,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
-import "../index.css";
-import Logo from "@/components/Logo";
 import { MicIcon } from "lucide-react";
+import "../index.css";
 
 export const Route = createRootRoute({
   component: () => {
@@ -17,16 +17,32 @@ export const Route = createRootRoute({
     return (
       <div className="min-h-screen flex flex-col">
         {route.pathname !== "/" && (
-          <nav className="flex md:flex-row flex-col md:justify-start justify-center items-center mb-4 flex-wrap md:gap-y-8">
-            <Link className="py-4 pl-6" to="/">
-              <Logo />
-            </Link>
-            <Link to="/speech-to-text">
-              <MicIcon size={30} className="text-emerald-600" />
-            </Link>
+          <nav className="sticky top-0 w-full bg-white shadow-sm z-10">
+            <div className="container mx-auto px-4 flex items-center justify-between">
+              <Link className="py-4" to="/">
+                <div className="flex items-center">
+                  <Logo />
+                </div>
+              </Link>
+              <div className="flex items-center gap-6">
+                <Link
+                  to="/speech-to-text"
+                  className="p-2 rounded-full hover:bg-emerald-50 transition-colors duration-200"
+                >
+                  <MicIcon size={30} className="text-emerald-600" />
+                </Link>
+              </div>
+            </div>
           </nav>
         )}
-        <Outlet />
+        <main className="flex-grow container mx-auto px-4">
+          <Outlet />
+        </main>
+        <footer className="py-4 bg-white border-t border-gray-200">
+          <div className="container mx-auto px-4 text-center text-gray-500 text-sm">
+            © {new Date().getFullYear()} 🐣
+          </div>
+        </footer>
         {/* @ts-ignore */}
         {import.meta.DEV && <TanStackRouterDevtools />}
       </div>
