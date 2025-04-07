@@ -72,7 +72,7 @@ export default function Upload() {
               {!loading && !transcript && !isUploading && (
                 <label
                   htmlFor="file"
-                  className="border w-full md:w-1/4 text-center text-slate-500 border-slate-400 p-8 rounded-md cursor-pointer hover:shadow-md flex justify-center items-center flex-col gap-3"
+                  className="border w-full md:w-full text-center text-slate-500 border-slate-400 p-8 rounded-md cursor-pointer hover:shadow-md flex justify-center items-center flex-col gap-3"
                 >
                   <input
                     onChange={onFileUpload}
