@@ -115,3 +115,10 @@ export const getSession = async (sessionId: string) => {
   }
   throw new Error(error.message);
 };
+
+export const deleteSession = async (sessionId: string) => {
+  const { error } = await supabase.from("session").delete().eq("id", sessionId);
+  if (error) {
+    throw new Error(error.message);
+  }
+};
