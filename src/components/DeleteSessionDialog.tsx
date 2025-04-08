@@ -10,7 +10,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { deleteSession } from "@/lib/data";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, useRouter } from "@tanstack/react-router";
 import { TrashIcon } from "lucide-react";
 
 export default function DeleteSessionDialog({
@@ -21,6 +21,7 @@ export default function DeleteSessionDialog({
   clientId: string;
 }) {
   const navigate = useNavigate();
+  const router = useRouter();
 
   return (
     <AlertDialog>
@@ -37,6 +38,9 @@ export default function DeleteSessionDialog({
           <AlertDialogAction
             onClick={async () => {
               await deleteSession(sessionId);
+
+              await router.invalidate();
+
               navigate({ to: "/clients/$clientId", params: { clientId } });
             }}
             className="text-white bg-red-500 hover:bg-red-500"
