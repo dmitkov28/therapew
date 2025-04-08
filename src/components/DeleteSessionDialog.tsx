@@ -25,8 +25,8 @@ export default function DeleteSessionDialog({
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger className="w-full md:w-fit text-white font-bold bg-red-500 rounded-md px-2 py-1 text-center">
-        <TrashIcon />
+      <AlertDialogTrigger className="w-full md:w-fit text-white font-bold bg-red-500 rounded-md px-1 py-0.5 text-center">
+        <TrashIcon width={15} />
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

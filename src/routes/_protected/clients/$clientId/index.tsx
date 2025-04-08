@@ -103,20 +103,22 @@ const ClientDetails = () => {
           {client.session.length ? (
             client.session.map((session) => (
               <div key={session.id} className="space-y-3 mb-24">
-                <Link
-                  to="/sessions/$sessionId"
-                  params={{ sessionId: session.id }}
-                >
-                  <h2 className="text-slate-500 hover:text-slate-700 font-bold inline-flex items-center gap-3">
-                    <CalendarIcon color="#059669" />
-                    {session.date}
-                  </h2>
-                </Link>
-                <div>
-                  <DeleteSessionDialog
-                    clientId={client.id}
-                    sessionId={session.id}
-                  />
+                <div className="flex justify-between items-center">
+                  <Link
+                    to="/sessions/$sessionId"
+                    params={{ sessionId: session.id }}
+                  >
+                    <h2 className="text-slate-500 hover:text-slate-700 font-bold inline-flex items-center gap-3">
+                      <CalendarIcon color="#059669" />
+                      {session.date}
+                    </h2>
+                  </Link>
+                  <div>
+                    <DeleteSessionDialog
+                      clientId={client.id}
+                      sessionId={session.id}
+                    />
+                  </div>
                 </div>
                 <blockquote className="p-4 border-s-4 border-gray-300 bg-gray-50">
                   <p className="text-xl italic leading-relaxed text-gray-900">
