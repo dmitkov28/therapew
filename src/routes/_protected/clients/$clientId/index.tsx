@@ -1,4 +1,5 @@
 import Dialog from "@/components/DeleteDialog";
+import DeleteSessionDialog from "@/components/DeleteSessionDialog";
 import NotFound from "@/components/NotFound";
 import SessionDialog from "@/components/SessionDialog";
 import { getClient } from "@/lib/data";
@@ -111,6 +112,12 @@ const ClientDetails = () => {
                     {session.date}
                   </h2>
                 </Link>
+                <div>
+                  <DeleteSessionDialog
+                    clientId={client.id}
+                    sessionId={session.id}
+                  />
+                </div>
                 <blockquote className="p-4 border-s-4 border-gray-300 bg-gray-50">
                   <p className="text-xl italic leading-relaxed text-gray-900">
                     {session.notes}
