@@ -22,6 +22,11 @@ export const Route = createRootRoute({
               <Link className="py-4" to="/">
                 <div className="flex items-center">
                   <Logo />
+                  {!navigator.onLine && (
+                    <span className="relative text-xs text-gray-400 border-2 border-gray-400 rounded-md py-1/2 px-2">
+                      offline
+                    </span>
+                  )}
                 </div>
               </Link>
               <div className="flex items-center gap-6">

@@ -3,9 +3,11 @@ import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_protected")({
   beforeLoad: async () => {
-    const { data, error } = await supabase.auth.getUser();
-    if (error || !(data.user.aud === "authenticated")) {
-      throw redirect({ to: "/" });
+    if (navigator.onLine) {
+      const { data, error } = await supabase.auth.getUser();
+      if (error || !(data.user.aud === "authenticated")) {
+        throw redirect({ to: "/" });
+      }
     }
   },
 });

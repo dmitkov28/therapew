@@ -4,8 +4,12 @@ import { supabase } from "@/supabase";
 
 export const Route = createFileRoute("/")({
   beforeLoad: async () => {
-    const { data, error } = await supabase.auth.getUser();
-    if (!error && data.user.aud === "authenticated") {
+    if (navigator.onLine) {
+      const { data, error } = await supabase.auth.getUser();
+      if (!error && data.user.aud === "authenticated") {
+        throw redirect({ to: "/clients" });
+      }
+    } else {
       throw redirect({ to: "/clients" });
     }
   },
