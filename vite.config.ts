@@ -21,12 +21,12 @@ export default defineConfig({
         theme_color: "#ffffff",
         icons: [
           {
-            src: "public/therapew.svg",
+            src: "therapew.svg",
             sizes: "192x192",
             type: "image/svg",
           },
           {
-            src: "public/therapew.svg",
+            src: "therapew.svg",
             sizes: "512x512",
             type: "image/svg",
           },
@@ -36,14 +36,29 @@ export default defineConfig({
         globPatterns: ["**/*.{js,css,html,png,jpg,svg}"],
         runtimeCaching: [
           {
-            urlPattern: /^https:\/\/api\.example\.com\/.*/i,
-            handler: "NetworkFirst", 
+            urlPattern: /^https:\/\/[a-z0-9-]+\.supabase\.co\/rest\/v1\/.*/i,
+            handler: "StaleWhileRevalidate",
             options: {
-              cacheName: "api-cache",
+              cacheName: "supabase-api-cache",
               expiration: {
                 maxEntries: 50,
+                maxAgeSeconds: 7 * 24 * 60 * 60,
+              },
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+            },
+          },
+          {
+            urlPattern: /^http:\/\/127\.0\.0\.1:54321\/rest\/v1\/client.*/i,
+            handler: "StaleWhileRevalidate",
+            options: {
+              cacheName: "supabase-local-cache",
+              expiration: {
+                maxEntries: 20,
                 maxAgeSeconds: 24 * 60 * 60,
               },
+              cacheableResponse: { statuses: [0, 200] },
             },
           },
         ],
